@@ -26,6 +26,10 @@ pub fn process_callback(request: Request<impl hyper::body::Body>, csrf: String) 
     let state_substr = parts.next().ok_or(ServerError::MalformedCSRF)?;
 
     let code = code_substr.strip_prefix("code=").ok_or(ServerError::MalformedCallback)?.to_string();
+    let code = urlencoding::decode(&code)
+        .map_err(|_| ServerError::MalformedCallback)?
+        .into_owned();
+
     let returned_csrf = state_substr.strip_prefix("state=").ok_or(ServerError::MalformedCSRF)?.to_string();
 
     // The CSRF ensures that the response from the server is the expected response to the request sent.
