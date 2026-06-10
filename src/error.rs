@@ -5,6 +5,7 @@ use async_channel::RecvError;
 use async_channel::TryRecvError;
 use tokio::task::JoinError;
 
+use crate::api::OnedriveError;
 use crate::authentication::callback::server::ServerError;
 use crate::authentication::oauth2::api::OAUTH2ApiError;
 
@@ -77,5 +78,6 @@ error_enum! {
         SerdeJsonError,
         OAUTH2ApiError,
         SystemTimeError,
+        OnedriveError
     }
 }

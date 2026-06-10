@@ -1,5 +1,6 @@
 pub mod authentication;
 pub mod error;
+pub mod api;
 
 #[tokio::main]
 async fn main() {
