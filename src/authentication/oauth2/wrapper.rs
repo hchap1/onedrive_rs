@@ -37,9 +37,10 @@ pub async fn acquire_refresh_token() -> Res<SemiPermanentToken> {
 /// Returns None if the token has expired, which should be used as a sign the application should trigger the acquire_refresh_token function
 /// The new semi-permanent token should overwrite the old one, as should the new expiry
 pub async fn acquire_session_token(refresh_token: SemiPermanentToken) -> Option<Res<TokenSet>> {
+
     if SystemTime::now()
         .duration_since(UNIX_EPOCH).ok()?
-        .as_secs() as usize <= refresh_token.expiration
+        .as_secs() as usize >= refresh_token.expiration
     {
         None
     } else {
