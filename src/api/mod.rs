@@ -4,6 +4,7 @@ use serde::de::DeserializeOwned;
 use crate::error::Res;
 
 pub mod albums;
+pub mod drive;
 
 #[derive(Clone, Debug)]
 pub enum OnedriveError {
