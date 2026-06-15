@@ -4,6 +4,7 @@ description = "Simple crate exposing Onedrive OAUTH2 authentication & implementi
 repository = "https://github.com/hchap1/onedrive-albums"
 version = "0.1.0"
 edition = "2024"
+license = "MIT"
 
 [dependencies]
 hyper = { version = "*", features = ["full"] }
