@@ -53,13 +53,13 @@ struct Location {
 
 #[derive(Debug, Clone)]
 pub struct PhotoMetaData {
-    id: String,
-    name: String,
-    created_date_time: DateTime<FixedOffset>,
-    width: usize,
-    height: usize,
-    location: Option<Location>,
-    size: usize
+    pub id: String,
+    pub name: String,
+    pub created_date_time: DateTime<FixedOffset>,
+    pub width: usize,
+    pub height: usize,
+    pub location: Option<Location>,
+    pub size: usize
 }
 
 impl TryFrom<DriveItem> for PhotoMetaData {

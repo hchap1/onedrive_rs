@@ -24,12 +24,20 @@ pub struct DriveItem {
 
     // Stable and persistent ID
     id: String,
-    pub name: String,
+    name: String,
 
     // Cummulative size of all items in the album, bytes
     size: Option<i64>,
-    pub web_url: Option<String>,
+    web_url: Option<String>,
     bundle: Option<Bundle>,
+}
+
+#[derive(Debug, Clone)]
+pub struct AlbumMetaData {
+    pub id: String,
+    pub name: String,
+    pub num_items: usize,
+    pub cover_image_id: Option<String>
 }
 
 #[derive(Debug, Deserialize)]
@@ -51,7 +59,7 @@ struct Album {
 }
 
 /// Retrieve albums from a drive
-pub async fn get_albums(access_token: String) -> Res<Vec<DriveItem>> {
+pub async fn get_albums(access_token: String) -> Res<Vec<AlbumMetaData>> {
     let mut albums: Vec<DriveItem> = Vec::new();
     let mut next_url: Option<String> = Some(BUNDLES_ENDPOINT.to_string());
 
@@ -67,5 +75,24 @@ pub async fn get_albums(access_token: String) -> Res<Vec<DriveItem>> {
         albums.extend(graph_collection.value);
     }
 
-    Ok(albums)
+    Ok(
+        albums
+            .into_iter()
+            .filter_map(
+                |drive_item| {
+
+                    let num_items = drive_item.bundle.as_ref()?.child_count?;
+                    let cover_image_item_id = drive_item.bundle?.album?.cover_image_item_id;
+                    
+                    Some(
+                        AlbumMetaData {
+                            id: drive_item.id,
+                            name: drive_item.name,
+                            num_items: num_items as usize,
+                            cover_image_id: cover_image_item_id
+                        }
+                    )
+                }
+            ).collect()
+    )
 }
