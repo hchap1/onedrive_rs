@@ -26,10 +26,14 @@ pub struct DriveItem {
     id: String,
     name: String,
 
-    // Cummulative size of all items in the album, bytes
-    size: Option<i64>,
-    web_url: Option<String>,
+    folder: Option<Folder>,
     bundle: Option<Bundle>,
+}
+
+#[derive(Debug, Deserialize)]
+struct Folder {
+    #[serde(rename = "childCount")]
+    child_count: usize
 }
 
 #[derive(Debug, Clone)]
@@ -42,10 +46,6 @@ pub struct AlbumMetaData {
 
 #[derive(Debug, Deserialize)]
 struct Bundle {
-
-    // Number of children in the album
-    child_count: Option<i32>,
-
     // If this is an album, this exists
     // Else, it is some other type of bundle
     album: Option<Album>
@@ -81,7 +81,7 @@ pub async fn get_albums(access_token: String) -> Res<Vec<AlbumMetaData>> {
             .filter_map(
                 |drive_item| {
 
-                    let num_items = drive_item.bundle.as_ref()?.child_count?;
+                    let num_items = drive_item.folder?.child_count;
                     let cover_image_item_id = drive_item.bundle?.album?.cover_image_item_id;
                     
                     Some(
