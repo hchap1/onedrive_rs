@@ -45,10 +45,10 @@ pub struct Image {
 
 
 #[derive(Debug, Clone, Deserialize)]
-struct Location {
-    latitude: f64,
-    longitude: f64,
-    altitude: f64
+pub struct Location {
+    pub latitude: f64,
+    pub longitude: f64,
+    pub altitude: f64
 }
 
 #[derive(Debug, Clone)]

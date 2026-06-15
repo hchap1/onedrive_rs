@@ -1,5 +1,4 @@
 use serde::Deserialize;
-use reqwest::Client;
 
 use crate::error::Res;
 use crate::api::make_request;
