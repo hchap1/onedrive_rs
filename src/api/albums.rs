@@ -11,7 +11,6 @@ const BUNDLES_FILTER: &str = "$filter=bundle/album%20ne%20null";
 /// Paginated collections in a common endpoint
 #[derive(Debug, Deserialize)]
 struct GraphCollection<T> {
-    #[serde(rename = "value")]
     value: Vec<T>,
 
     #[serde(rename = "@odata.nextLink")]

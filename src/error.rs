@@ -3,6 +3,7 @@ use std::time::SystemTimeError;
 use async_channel::SendError;
 use async_channel::RecvError;
 use async_channel::TryRecvError;
+use chrono::ParseError;
 use tokio::task::JoinError;
 
 use crate::api::OnedriveError;
@@ -78,6 +79,7 @@ error_enum! {
         SerdeJsonError,
         OAUTH2ApiError,
         SystemTimeError,
-        OnedriveError
+        OnedriveError,
+        ParseError
     }
 }

@@ -4,11 +4,13 @@ use serde::de::DeserializeOwned;
 use crate::error::Res;
 
 pub mod albums;
+pub mod photos;
 pub mod drive;
 
 #[derive(Clone, Debug)]
 pub enum OnedriveError {
-    BadStatus
+    BadStatus,
+    MissingImageMetadata
 }
 
 pub async fn make_request<T: DeserializeOwned>(url: &str, access_token: String, parameters: Vec<(String, String)>) -> Res<T> {
