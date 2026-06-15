@@ -91,7 +91,7 @@ impl TryFrom<DriveItem> for PhotoMetaData {
 pub async fn get_photo(photo_id: String, access_token: String) -> Res<PhotoMetaData> {
     Ok(
         make_request::<DriveItem>(
-            &format!("{PHOTOS_ENDPOINT}items/{photo_id}"),
+            &format!("{PHOTOS_ENDPOINT}{photo_id}"),
             access_token,
             vec![]
         ).await?
@@ -102,7 +102,7 @@ pub async fn get_photo(photo_id: String, access_token: String) -> Res<PhotoMetaD
 /// Retrieve photos from an album
 pub async fn get_photos(album_id: String, access_token: String) -> Res<Vec<PhotoMetaData>> {
     let mut drive_items: Vec<DriveItem> = Vec::new();
-    let mut next_url: Option<String> = Some(format!("{PHOTOS_ENDPOINT}{album_id}/content"));
+    let mut next_url: Option<String> = Some(format!("{PHOTOS_ENDPOINT}{album_id}/children"));
 
     while let Some(url) = &next_url {
         let graph_collection = make_request::<GraphCollection<DriveItem>>(
